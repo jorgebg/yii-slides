@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Yii Framework Padawan Guide</title>
+
+		<meta name="description" content="Fundamentals of Yii Framework">
+		<meta name="author" content="Jorge Barata González">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+		<style>
+			img.diagram {
+				height:70%;
+				background:#fff !important;
+				border-radius: 15%;
+			}
+		</style>
+
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Yii Framework</h1>
+					<h3>Padawan Guide</h3>
+					<p>
+						<small>Created by <a href="http://github.com/jorgebg">Jorge Barata González</a></small>
+					</p>
+
+					<aside class="notes">
+						b: Black
+						s: Speaker notes
+						ESC: Slides overview
+					</aside>
+				</section>
+
+				<section>
+					<h2>Overview</h2>
+					<ul>
+						<li>Fundamentals</li>
+						<li>Models</li>
+						<li>Database</li>
+						<li>Scaffolding</li>
+					</ul>
+					
+					<aside class="notes">
+						Fundamentals: install Yii, skeleton, etc
+					</aside>
+				</section>
+
+				<section>
+					<h1>MVC</h1>
+				</section>
+
+				<section>
+					<h2>MVC</h2>
+					<h3>
+						<strong>M</strong>odel
+						<strong>V</strong>iew
+						<strong>C</strong>ontroller
+					</h3>
+					<img class="diagram" src="http://upload.wikimedia.org/wikipedia/commons/a/a0/MVC-Process.svg">
+				</section>
+
+				<section>
+					<h2>MVC<h2>
+					<h3>Web Applications</h3>
+					<ul>
+						<li>Most common architecture for World Wide Web in all major programming languages</li>
+						<li>Application frameworks enforce the pattern</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>Yii Framework</h1>
+				</section>
+
+				<section>
+					<h2>Yii Framework</h2>
+					<h3>Documentation</h3>
+					<br>
+					<p><code>http://www.yiiframework.com/doc</code></p><br>
+					<p><a href="http://www.yiiframework.com/doc/guide">The Definitive Guide to Yii</a></p>
+					<p><a href="http://www.yiiframework.com/doc/blog/">The Yii Blog Tutorial</a></p>
+				</section>
+
+				<section>
+					<h2>Yii Framework</h2>
+					<h3>MVC</h3>
+					<img class="diagram" src="http://www.yiiframework.com/tutorial/image?type=guide&version=1.1&lang=en&file=structure.png">
+				</section>
+
+
+
+				<section>
+					<h2>Yii Framework</h2>
+					<div style="font-weight: bold">
+					<p>Installation</p>
+					<pre><code data-trim class="bash"  >
+git clone git@github.com:yiisoft/yii.git
+					</code></pre>
+					<br>
+					<p>Creating Application</p>
+					<pre><code data-trim class="bash"  >
+yii/framework/yiic webapp ./padawan
+					</code></pre>
+					</div>
+					<br><p><small>Create dummy database</small></p>
+					<pre><code data-trim class="bash"  >
+mkdir data
+touch data/testdrive.db
+					</code></pre>
+				</section>
+
+				<section data-transition="fade">
+					<h2>Yii Framework</h2>
+					<h3>Directory Structure</h3>
+					<pre><code data-trim  >
+assets
+protected/
+	components
+	config
+	controllers	
+	models 		
+	runtime
+	views 		
+					</code></pre>
+				</section>
+
+				<section data-transition="none">
+					<h2>Yii Framework</h2>
+					<h3>Directory Structure</h3>
+					<pre><code data-trim  >
+assets
+protected/
+	components
+	config
+	controllers	*
+	models 		*
+	runtime
+	views 		*
+					</code></pre>
+				</section>
+
+
+				<section>
+					<h2>Yii Framework</h2>
+					<h1>Workflow</h1>
+					<img src="img/skeleton.jpg">
+				</section>
+
+				<section>
+					<h2>Workflow</h2>
+					<img class="diagram" src="http://www.yiiframework.com/tutorial/image?type=guide&version=1.1&lang=en&file=flow.png">
+				</section>
+
+				<section>
+					<h2>Workflow</h2>
+					<h3>Entry script</h3>
+					<pre><code data-trim class="php"  >
+&lt;?php 
+// remove the following line when in production mode
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+// include Yii bootstrap file
+require_once('path/to/yii/framework/yii.php');
+// create application instance and run
+$configFile='protected/config/main.php';
+Yii::createWebApplication($configFile)->run();
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Configuration</h2>
+					<p>Array based:</p>
+					<pre><code data-trim class="php"  >
+&lt;?php return array(...
+					</code></pre>
+					<p>Required by the entry script:</p>
+					<pre><code data-trim class="bash"  >
+index.php         ->   protected/config/main.php
+index-test.php    ->   protected/config/test.php
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Workflow</h2>
+					
+					<p>Create a new action named <code>padawan</code> inside <code>site</code> controller</p>
+					<p><code>protected/controllers/SiteController.php</code></p>
+					<pre><code data-trim class="php">
+&lt;?php
+class SiteController extends Controller {
+	...
+	public function actionPadawan() {
+		echo 'May the force be with you';
+	}
+}
+					</code></pre>
+					<p><code>http://localhost/lightsaber/?r=/site/padawan</code></p>
+					
+				</section>
+
+				<section>
+					<h2>Yii Framework</h2>
+					<h1>Model</h1>
+				</section>
+
+				<section>
+					<h2>Models</h2>
+					<p><code>CModel</code></p>
+					<ul>
+						<li>Attributes</li>
+						<li>Rules</li>
+						<li>Validation</li>
+						<li class="fragment"><i>Scenario</i></li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Form Models</h2>
+					<p><code>CFormModel</code></p>
+					<ul>
+						<li>Extends <code>CModel</code>
+							<ul>
+								<li>Default attribute names</li>
+							</ul>
+						</li>
+					</ul>
+					<br/><br/>
+					<p><code>protected/models/ContactForm.php</code></p>
+				</section>
+
+				<section>
+					<h2>Yii Framework</h2>
+					<h1>Migrations</h1>
+					<img src="img/migrations.jpg">
+				</section>
+
+				<section>
+					<h2>Migrations</h2>
+					<h3>Database schema versioning</h3>
+					<ul>
+						<li>Class based, extends <code>CDbMigration</code>
+							<ul>
+								<li><code>up()</code></li>
+								<li><code>down()</code></li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Migrations</h2>
+					<p><code>m&lt;timestamp&gt;_&lt;name&gt;</code></p>
+					<pre><code data-trim class="php"  >
+&lt;?php 
+class m130719_124500_lightsaber extends CDbMigration
+{
+    public function up()
+    {
+        $this->createTable('Lightsaber', array(
+            'id' => 'pk',
+            'color' => 'string NOT NULL',
+        ));
+        $this->execute('INSERT INTO ');
+    }
+ 
+    public function down()
+    {
+        $this->dropTable('Lightsaber');
+    }
+    ...
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Migrations</h2>
+					<h3>Example</h3>
+					<pre><code data-trim class="bash" >
+#Create migration
+protected/yiic migrate create lightsaber
+					</code></pre>
+					<p>...edit migration...</p>
+					<pre><code data-trim class="bash" >
+#Apply migration
+protected/yiic migrate
+
+#Revert migration
+protected/yiic migrate down
+					</code></pre>
+				</section>
+
+				<section>
+					<h1>Active Record</h1>
+				</section>
+
+				<section>
+					<h2>Active Record</h2>
+					<p>Architectural pattern for database access</p>
+					<ul style="font-weight: bold">
+						<li>Class &rarr; Table</li>
+						<li>Object &rarr; Record</li>
+					</ul>
+					<br>
+					<br>
+					<table style="margin-left: 30%">
+						<tr>
+							<td><strong>Object</strong></td>
+							<td><strong>Record</strong></td>
+						</tr>
+						<tr>
+							<td>New</td>
+							<td>Insert</td>
+						</tr>
+						<tr>
+							<td>Modify properties</td>
+							<td>Update</td>
+						</tr>
+						<tr>
+							<td>Load</td>
+							<td>Select</td>
+						</tr>
+					</table>
+					<br>
+					<p><small>Active Record &ne; ORM (Object Relational Mapping)</small></p>
+				</section>
+
+				<section>
+					<h2>Active Record</h2>
+					<p>Cons</p>
+					<ul><li>Unit testing an active record object without a database becomes difficult</li></ul>
+				</section>
+
+				<section>
+					<h2>Yii Framework</h2>
+					<h1>Active Record</h1>
+				</section>
+
+				<section>
+					<h2>Active Record</h2>
+					<h3>Yii Framework</h3>
+					<p><code>CActiveRecord</code></p>
+					<ul>
+						<li>Extends <code>CModel</code>
+							<ul>
+								<li>Default attribute names</li>
+								<li>Database access
+									<ul>
+										<li><code>find()</code></li>
+										<li><code>save()</code></li>
+										<li><code>delete()</code></li>
+										<li><code>getRelated()</code></li>
+										<li>...</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+					<aside class="notes">
+						Uses DAO (Database Access Objects)
+					</aside>
+				</section>
+
+				<section>
+					<h2>Active Record</h2>
+					<h3>Yii Framework</h3>
+					<p><code>protected/models/Lightsaber.php</code></p>
+					<pre><code data-trim class="php"  >
+&lt;?php 
+class Lightsaber extends CActiveRecord {
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Active Record</h2>
+					<h3>Yii Framework</h3>
+					<p><code>model()</code> returns an AR instance that is used to access class-level methods (something similar to static class methods) in an object context</p>
+					<aside>
+						Used by frameworks
+					</aside>
+				</section>
+
+				<section>
+					<h2>Active Record</h2>
+					<h3>Yii Framework</h3>
+					<pre><code data-trim class="php"  >
+&lt;?php
+#New row
+$model = new Lightsaber;
+$model->color = 'blue';
+$model->save();
+
+#Update row
+$model = Lightsaber::model()->find('color=:color', array(':color'=>'blue'));
+$model->color = 'red';
+$model->save();
+
+#Delete row
+$model = Lightsaber::model()->findByAttributes(array('color'=>'red'));
+$model->delete();
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Active Record</h2>
+					<h3>Yii Framework</h3>
+					<pre>
+				count()
+				exists()
+
+				find()
+				findByPk()
+				findAll()
+				findAllByAttributes()
+
+				updateAll()
+				updateByPk()
+				updateCounters()
+
+				deleteAll()
+				deleteByPk()
+					</pre>
+				</section>
+
+				<section>
+					<h2>Yii Framework</h2>
+					<h1>Gii</h1>
+					<img src="img/gii.jpg">
+				</section>
+
+				<section>
+					<h2>Gii</h2>
+					<p>Web-based code generation tool</p>
+					<ul>
+						<li>Controllers</li>
+						<li>CRUD</li>
+						<li>Form</li>
+						<li>Model</li>
+						<li>...</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Gii</h2>
+					<p><code>protected/config/main.php</code></p>
+					<pre><code data-trim class="php"  >
+&lt;?php
+return array(
+    ...
+    'modules'=>array(
+        'gii'=>array(
+            'class'=>'system.gii.GiiModule',
+            'password'=>'darth vader',
+            ...
+        ),
+    ),
+    ...
+);
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Gii</h2>
+					<p><code>http://localhost/lightsaber/?r=/gii</code></p>
+					<ul>
+					<li>Generate the Lightsaber model</li>
+					<li>Generate CRUD</li>
+					<li><code>http://localhost/lightsaber/?r=/lightsaber</code></li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>THE END</h1>
+					<img src="img/Lightsaber_blue.png">
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
